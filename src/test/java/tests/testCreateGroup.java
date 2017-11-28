@@ -6,7 +6,7 @@ import core.Group.UserMainPage;
 import model.TestBot;
 import org.junit.Test;
 
-public class SecondTest extends TestBase {
+public class testCreateGroup extends TestBase {
 
     private static final String NEW_GROUP_NAME = "new group";
 

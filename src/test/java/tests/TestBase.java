@@ -1,4 +1,4 @@
-package core;
+package tests;
 
 import org.junit.After;
 import org.junit.Before;
@@ -11,8 +11,9 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.fail;
 
 public class TestBase {
+
     private static final String BASE_URL = "https://ok.ru/";
-    private static final String DELIMETER = "/";
+    private static final String DELIMITER = "/";
     private StringBuffer verificationErrors;
     protected WebDriver driver;
 
@@ -34,7 +35,7 @@ public class TestBase {
         driver = new ChromeDriver();
         driver.manage().window().setSize(new Dimension(1600, 1200));
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.get(BASE_URL + DELIMETER);
+        driver.get(BASE_URL + DELIMITER);
     }
 
     private void stop() {

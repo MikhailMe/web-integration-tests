@@ -1,6 +1,5 @@
 package tests;
 
-import core.TestBase;
 import core.WriteMessage.LoginMainPage;
 import core.WriteMessage.MessagePage;
 import core.WriteMessage.UserMainPage;
@@ -9,14 +8,16 @@ import org.junit.Test;
 
 public class testWriteMessage extends TestBase {
 
+    private static final String message = "I like write auto-tests ;)";
+
     @Test
-    public void addStatusTest() throws Exception{
-        new LoginMainPage(driver).doLogin(new TestBot("technopolisBot12", "technopolis16"));
+    public void writeMessageTest() throws Exception {
+        new LoginMainPage(driver).doLogin(new TestBot("technopolisBot11", "technopolis16"));
         new UserMainPage(driver).clickMessages();
         MessagePage messagePage = new MessagePage(driver);
-        messagePage.clickDialog();
-        messagePage.typeMessage("hello");
+        messagePage.clickUpperDialog();
+        messagePage.typeMessage(message);
         messagePage.clickSend();
-        // TODO ADD CHECK
+        // TODO need to add a check of sent message
     }
 }
