@@ -3,11 +3,12 @@ package tests;
 import core.Group.GroupMainPage;
 import core.Group.LoginMainPage;
 import core.Group.UserMainPage;
-import core.TestBase;
 import model.TestBot;
 import org.junit.Test;
 
 public class SecondTest extends TestBase {
+
+    private static final String NEW_GROUP_NAME = "new group";
 
     @Test
     public void testGroupCreation() throws Exception {
@@ -16,8 +17,8 @@ public class SecondTest extends TestBase {
         GroupMainPage groupMainPage = new GroupMainPage(driver);
         groupMainPage.clickCreateGroup();
         groupMainPage.clickInterestGroup();
-        groupMainPage.typeGroupName("Group");
+        groupMainPage.typeGroupName(NEW_GROUP_NAME);
         groupMainPage.clickCreateButton();
-        //todo не хватает проверки
+        // TODO need to add check a new group name
     }
 }

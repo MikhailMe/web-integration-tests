@@ -11,9 +11,14 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.fail;
 
 public class TestBase {
-    private String baseUrl;
-    private StringBuffer verificationErrors = new StringBuffer();
+    private static final String BASE_URL = "https://ok.ru/";
+    private static final String DELIMETER = "/";
+    private StringBuffer verificationErrors;
     protected WebDriver driver;
+
+    {
+        verificationErrors = new StringBuffer();
+    }
 
     @Before
     public void setUp() throws Exception {
@@ -25,15 +30,14 @@ public class TestBase {
         stop();
     }
 
-    public void init() {
+    private void init() {
         driver = new ChromeDriver();
-        driver.manage().window().setSize(new Dimension(1600,1200));
-        baseUrl = "https://ok.ru/";
+        driver.manage().window().setSize(new Dimension(1600, 1200));
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.get(baseUrl + "/");
+        driver.get(BASE_URL + DELIMETER);
     }
 
-    public void stop() {
+    private void stop() {
         driver.quit();
         String verificationErrorString = verificationErrors.toString();
         if (!"".equals(verificationErrorString)) {

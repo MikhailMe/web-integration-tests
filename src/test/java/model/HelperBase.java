@@ -1,10 +1,10 @@
-package core.AddStatus;
+package core;
 
 import org.openqa.selenium.*;
 
 public abstract class HelperBase {
+
     protected WebDriver driver;
-    private boolean acceptNextAlert = true;
 
     public HelperBase(WebDriver driver) {
         this.driver = driver;
@@ -13,12 +13,21 @@ public abstract class HelperBase {
 
     protected abstract void check();
 
-    void type(String text, By locator) {
+    protected void type(String text, By locator) {
         driver.findElement(locator).clear();
         driver.findElement(locator).sendKeys(text);
     }
 
-    void click(By locator) {
+    protected void click(By locator) {
         driver.findElement(locator).click();
+    }
+
+    protected boolean isElementPresent(By by) {
+        try {
+            driver.findElement(by);
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 }
