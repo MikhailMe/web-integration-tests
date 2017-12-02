@@ -29,7 +29,7 @@ public class testChangeSurname extends TestBase {
     private void checkSurname() {
         Assert.assertFalse("Old surname equals new surname", oldSurname.equals(newSurname));
         String getSurname = driver.findElement(NAME).getText().split(" ")[1];
-        Assert.assertTrue("New surname is not equals new surname", newSurname.equals(getSurname));
+        Assert.assertTrue("New surname is not equals generated surname", newSurname.equals(getSurname));
     }
 
     @Test

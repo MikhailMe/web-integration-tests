@@ -70,5 +70,6 @@ public class ChangeSurnamePage extends HelperBase {
         click(TO_MAIN_PAGE_BTN);
         // проверяем, что перешли на главную страничку
         checkPresentElementsOnUserMainPage();
+        checkVisibilityElementsOnUserMainPage();
     }
 }

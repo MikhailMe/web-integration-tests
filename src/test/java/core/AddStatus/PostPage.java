@@ -5,10 +5,6 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
-
 public class PostPage extends HelperBase {
 
     private static final By WRITING_AREA = By.id("posting_form_text_field");
@@ -21,13 +17,15 @@ public class PostPage extends HelperBase {
     protected void check() {
         // проверяем наличие
         Assert.assertTrue("Writing area is missing", isElementPresent(WRITING_AREA));
-        // проверяем видимость
-        Assert.assertTrue("Writing area is not visible", isElementVisible(WRITING_AREA));
     }
 
     public void clickWritingArea() {
+        // ещё раз проверяем наличие области для ввода статуса
         Assert.assertTrue("Writing area is missing", isElementPresent(WRITING_AREA));
+        Assert.assertTrue("Writing area is not visible", isElementVisible(WRITING_AREA));
+        // кликаем по области для ввода статуса
         click(WRITING_AREA);
+        // теперь в область ввода статуса можно писать
         Assert.assertTrue("Writing area is not visible", isElementVisible(WRITING_AREA));
     }
 
@@ -39,10 +37,13 @@ public class PostPage extends HelperBase {
     }
 
     public void clickShareStatus() {
+        // проверяем наличие и видимость кнопки "Поделиться статусом"
+        Assert.assertTrue("Share button is missing", isElementPresent(SHARE_BTN));
         Assert.assertTrue("Share button is not visible", isElementVisible(SHARE_BTN));
         // кликнули на кнопку
         click(SHARE_BTN);
         // проверили, что перешли на следующую страничку
         checkPresentElementsOnUserMainPage();
+        checkVisibilityElementsOnUserMainPage();
     }
 }
