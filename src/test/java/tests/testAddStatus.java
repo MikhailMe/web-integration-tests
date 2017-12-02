@@ -18,7 +18,7 @@ public class testAddStatus extends TestBase {
 
     private String generateNewStatus() {
         int statusLength = 20;
-        char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+        char[] chars = "abcdefghijklmnopqrstuvwxyz ".toCharArray();
         StringBuilder newStatus = new StringBuilder();
         for (int i = 0; i < statusLength; i++)
             newStatus.append(chars[new Random().nextInt(chars.length)]);

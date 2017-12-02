@@ -18,10 +18,10 @@ public class testChangeSurname extends TestBase {
     private static final By NAME = By.cssSelector(".mctc_name_tx");
 
     private String generateNewSurname() {
-        int statusLength = 15;
-        char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+        int surnameLength = 15;
+        char[] chars = "abcdefghijklmnopqrstuvwxyz ".toCharArray();
         StringBuilder newSurname = new StringBuilder();
-        for (int i = 0; i < statusLength; i++)
+        for (int i = 0; i < surnameLength; i++)
             newSurname.append(chars[new Random().nextInt(chars.length)]);
         return newSurname.toString();
     }
