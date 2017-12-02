@@ -24,6 +24,7 @@ public class UserMainPage extends HelperBase {
     }
 
     public void clickMessages() {
+        // check
         click(MESSAGES_ICON);
     }
 

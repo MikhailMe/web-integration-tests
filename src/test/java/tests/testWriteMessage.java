@@ -1,8 +1,8 @@
 package tests;
 
-import core.WriteMessage.LoginMainPage;
 import core.WriteMessage.MessagePage;
 import core.WriteMessage.UserMainPage;
+import model.LoginMainPage;
 import model.TestBot;
 import org.junit.Test;
 

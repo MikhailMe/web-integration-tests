@@ -19,12 +19,14 @@ public class MessagePage extends HelperBase {
 
     protected void check() {
         Assert.assertTrue("List of messages is missing", isElementPresent(LIST_OF_MESSAGES));
-        Assert.assertTrue("Upper dialog is missing", isElementPresent(UPPER_DIALOG));
         Assert.assertTrue("Conversation prompted is missing", isElementPresent(CONVERSATION_PROMPTED));
     }
 
     public void clickUpperDialog() {
+        // получать сюда инт и говорить какому диалогу отправить сообщуху
+        // проверить отоброжаение и видимость
         click(UPPER_DIALOG);
+        // проверить то что нажали, то есть начали отображаться элементы, которые видны после клика
     }
 
     public void typeMessage(String message) {
