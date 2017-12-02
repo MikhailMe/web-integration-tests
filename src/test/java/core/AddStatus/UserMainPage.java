@@ -9,6 +9,8 @@ public class UserMainPage extends HelperBase {
 
     private static final By WRITING_AREA = By.id("posting_form_text_field");
     private static final By POST_AREA = By.xpath(".//*[@class='input_placeholder']");
+    private static final By NOTES = By.id("hook_Block_MiddleColumnTopCard_MenuUser");
+    private static final By USER_STATUSES = By.id("hook_Block_UserStatusesMRB");
 
     public UserMainPage(WebDriver driver) {
         super(driver);
@@ -28,5 +30,16 @@ public class UserMainPage extends HelperBase {
         click(POST_AREA);
         // проверяем наличие области для написания статуса
         Assert.assertTrue("Writing area is missing", isElementPresent(WRITING_AREA));
+    }
+
+    public void clickNotes() {
+        // проверяем наличие и видимость иконки "заметки"
+        Assert.assertTrue("", isElementPresent(NOTES));
+        Assert.assertTrue("", isElementVisible(NOTES));
+        // кликаем по иконке "заметки"
+        click(NOTES);
+        // проверяем переход на страничку заметок
+        Assert.assertTrue("", isElementPresent(USER_STATUSES));
+        Assert.assertTrue("", isElementVisible(USER_STATUSES));
     }
 }

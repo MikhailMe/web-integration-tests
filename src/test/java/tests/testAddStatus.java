@@ -13,14 +13,13 @@ public class testAddStatus extends TestBase {
 
     private static final String LOGIN = "technopolisBot13";
     private static final String PASSWORD = "technopolis16";
-    // TODO: fix Xpath status
-    //*[@id="hook_Block_MainFeedsNewFeed"]
-    private static final By STATUS = By.cssSelector(".mctc_name_tx");
+    // TODO: fix STATUS
+    private static final By STATUS = By.cssSelector(".feed:first-child");
     private String newStatus;
 
     private String generateNewStatus() {
         int statusLength = 20;
-        char[] chars = "abcdefghijklmnopqrstuvwxyz ".toCharArray();
+        char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
         StringBuilder newStatus = new StringBuilder();
         for (int i = 0; i < statusLength; i++)
             newStatus.append(chars[new Random().nextInt(chars.length)]);
@@ -28,8 +27,11 @@ public class testAddStatus extends TestBase {
     }
 
     private String getStatus() {
+        // TODO достать только статус, если нужно будет (зависит от @STATUS)
         return driver.findElement(STATUS).getText();
     }
+
+
 
     private void checkStatus() {
         String getStatus = getStatus();
@@ -39,11 +41,11 @@ public class testAddStatus extends TestBase {
     @Test
     public void addStatusTest() throws Exception {
         // залогинились
-        LoginMainPage loginMainPage = new LoginMainPage(driver);
+        new LoginMainPage(driver).doLogin(new TestBot(LOGIN, PASSWORD));
         // перешли на главную страничку
-        loginMainPage.doLogin(new TestBot(LOGIN, PASSWORD));
+        UserMainPage userMainPage = new UserMainPage(driver);
         // кликнули по области для ввода поста
-        new UserMainPage(driver).clickPost();
+        userMainPage.clickPost();
         // перешли на страничку поста
         PostPage postPage = new PostPage(driver);
         // кликнули по области для ввода статуса
@@ -54,7 +56,9 @@ public class testAddStatus extends TestBase {
         postPage.typeStatus(newStatus);
         // кликнули по кнопке "поделиться статусом"
         postPage.clickShareStatus();
+        // кликаем по кнопке "заметки"
+        userMainPage.clickNotes();
         // проверили изменение статуса
-        //checkStatus();
+        checkStatus();
     }
 }

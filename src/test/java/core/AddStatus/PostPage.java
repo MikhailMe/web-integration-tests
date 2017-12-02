@@ -4,6 +4,8 @@ import model.HelperBase;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class PostPage extends HelperBase {
 
@@ -20,6 +22,9 @@ public class PostPage extends HelperBase {
     }
 
     public void clickWritingArea() {
+        // устанавливаем задержку, что @WRITING_AREA успела отобразиться
+        new WebDriverWait(driver, 30)
+                .until(ExpectedConditions.visibilityOfElementLocated(WRITING_AREA));
         // ещё раз проверяем наличие области для ввода статуса
         Assert.assertTrue("Writing area is missing", isElementPresent(WRITING_AREA));
         Assert.assertTrue("Writing area is not visible", isElementVisible(WRITING_AREA));
