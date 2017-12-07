@@ -1,14 +1,13 @@
 package model;
 
-import org.junit.Assert;
+import com.google.common.base.Preconditions;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.concurrent.TimeUnit;
 
 public abstract class HelperBase {
-
-    private static final By MIDDLE_COLUMN = By.id("hook_Block_MiddleColumnTopCard");
-    private static final By LEFT_COLUMN = By.id("hook_Block_LeftColumnTopCardUser");
-    private static final By POSTING_FORM = By.id("hook_Block_PostingForm");
-    private static final By POST_AREA = By.xpath(".//*[@class='input_placeholder']");
 
     protected WebDriver driver;
 
@@ -45,20 +44,43 @@ public abstract class HelperBase {
         }
     }
 
-    // проверяем, то что находимся на главной страничке
-    protected void checkPresentElementsOnUserMainPage() {
-        // проверяем страницу на которую перешли
-        Assert.assertTrue("Middle column is missing", isElementPresent(MIDDLE_COLUMN));
-        Assert.assertTrue("Left column is missing", isElementPresent(LEFT_COLUMN));
-        Assert.assertTrue("Posting form is missing", isElementPresent(POSTING_FORM));
-        Assert.assertTrue("Post area is missing", isElementPresent(POST_AREA));
+    public boolean explicitWait(final ExpectedCondition<?> condition, long maxCheckTimeInSeconds, long millisecondsBetweenChecks) {
+        Preconditions.checkNotNull(condition, "Condition must be not null");
+        Preconditions.checkArgument(TimeUnit.MINUTES.toSeconds(3) > maxCheckTimeInSeconds, "Max check time in seconds should be less than 3 minutes");
+        checkConditionTimeouts(maxCheckTimeInSeconds, millisecondsBetweenChecks);
+        try {
+            // сбрасываем ожидания в 0
+            driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+            // создаем эксплицитное ожидание
+            WebDriverWait explicitWait = new WebDriverWait(driver, maxCheckTimeInSeconds, millisecondsBetweenChecks);
+            // проверяем его
+            explicitWait.until(condition);
+            return true;
+        } catch (Exception e) {
+            return false;
+        } finally {
+            // при любом результате восстанавливаем значение имплицитного ожидания по умолчанию
+            if (driver != null) {
+                driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            } else {
+                throw new IllegalArgumentException("Driver shouldnt be null");
+            }
+        }
     }
 
-    // проверяем видимость элеметов на главной страничке
-    protected void checkVisibilityElementsOnUserMainPage() {
-        Assert.assertTrue("Middle column is not visible", isElementVisible(MIDDLE_COLUMN));
-        Assert.assertTrue("Left column is not visible", isElementVisible(LEFT_COLUMN));
-        Assert.assertTrue("Posting form is not visible", isElementVisible(POSTING_FORM));
-        Assert.assertTrue("Post area is not visible", isElementVisible(POST_AREA));
+    /**
+     * Проверяет таймаут провекри условия и интервал между проверками: таймаут
+     * должен быть больше нуля, интервал проверки должен быть больше нуля
+     * интервал между проверками умноженный на 1000 должен быть меньше таймаута
+     * проверки
+     *
+     * @param maxCheckTimeInSeconds     максимальное время проверки в секундах
+     * @param millisecondsBetweenChecks интервал между проверками в милисекундах
+     */
+    private void checkConditionTimeouts(long maxCheckTimeInSeconds, long millisecondsBetweenChecks) {
+        Preconditions.checkState(maxCheckTimeInSeconds > 0, "maximum check time in seconds must be not 0");
+        Preconditions.checkState(millisecondsBetweenChecks > 0, "milliseconds count between checks must be not 0");
+        Preconditions.checkState(millisecondsBetweenChecks < (maxCheckTimeInSeconds * 1000),
+                "Millis between checks must be less than max seconds to wait");
     }
 }

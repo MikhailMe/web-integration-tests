@@ -1,8 +1,12 @@
-package model;
+package core;
 
+import model.HelperBase;
+import model.TestBot;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginMainPage extends HelperBase {
 
@@ -15,27 +19,21 @@ public class LoginMainPage extends HelperBase {
     }
 
     protected void check() {
-        // проверяем существование элементов
-        Assert.assertTrue("Field email is missing", isElementPresent(EMAIL));
-        Assert.assertTrue("Field password is missing", isElementPresent(PASSWORD));
-        Assert.assertTrue("Button login is missing", isElementPresent(LOGIN_BUTTON));
-        // проверяем видимость этих элементов
-        Assert.assertTrue("Field is not visible", isElementVisible(EMAIL));
-        Assert.assertTrue("Field is not visible", isElementVisible(PASSWORD));
-        Assert.assertTrue("Field is not visible", isElementVisible(LOGIN_BUTTON));
-
+        Assert.assertTrue("Field is not visible",
+                new WebDriverWait(driver, 10).until((ExpectedCondition<Boolean>) d -> isElementVisible(EMAIL)));
+        Assert.assertTrue("Field is not visible",
+                new WebDriverWait(driver, 10).until((ExpectedCondition<Boolean>) d -> isElementVisible(PASSWORD)));
+        Assert.assertTrue("Field is not visible",
+                new WebDriverWait(driver, 10).until((ExpectedCondition<Boolean>) d -> isElementVisible(LOGIN_BUTTON)));
     }
 
     public void doLogin(TestBot testBot) {
-        // ещё раз наличие элементов
         Assert.assertTrue("Field email is missing", isElementPresent(EMAIL));
         Assert.assertTrue("Field password is missing", isElementPresent(PASSWORD));
         Assert.assertTrue("Button login is missing", isElementPresent(LOGIN_BUTTON));
         type(testBot.getLogin(), EMAIL);
         type(testBot.getPassword(), PASSWORD);
         click(LOGIN_BUTTON);
-        // проверяем, что перещли на главную страничку
-        checkPresentElementsOnUserMainPage();
     }
 
 }
