@@ -4,6 +4,8 @@ import model.HelperBase;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class UserMainPage extends HelperBase {
 
@@ -33,6 +35,9 @@ public class UserMainPage extends HelperBase {
     }
 
     public void clickNotes() {
+        new WebDriverWait(driver, 50)
+                .until(ExpectedConditions.visibilityOfElementLocated(NOTES));
+
         // проверяем наличие и видимость иконки "заметки"
         Assert.assertTrue("", isElementPresent(NOTES));
         Assert.assertTrue("", isElementVisible(NOTES));

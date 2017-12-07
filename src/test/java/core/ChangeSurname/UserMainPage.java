@@ -40,4 +40,10 @@ public class UserMainPage extends HelperBase {
         Assert.assertTrue("Name is not visible", isElementVisible(NAME));
         return driver.findElement(NAME).getText();
     }
+
+    public void checkSurname(String oldSurname, String newSurname) {
+        Assert.assertFalse("Old surname equals new surname", oldSurname.equals(newSurname));
+        String getSurname = driver.findElement(NAME).getText().split(" ")[1];
+        Assert.assertTrue("New surname is not equals generated surname", newSurname.equals(getSurname));
+    }
 }

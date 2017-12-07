@@ -4,6 +4,13 @@ import model.HelperBase;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MessagePage extends HelperBase {
 
@@ -12,8 +19,8 @@ public class MessagePage extends HelperBase {
     private static final By UPPER_DIALOG = By.cssSelector(".chats_i:first-child .chats_i_ovr");
     private static final By SEND_MESSAGE_BTN = By.cssSelector(".button-pro.comments_add-controls_save");
     private static final By MESSAGE_AREA = By.cssSelector(".comments_add_form .comments_add-ceditable[name=\"st.txt\"]");
-    // TODO get Xpath or cssSelector for last message
-    private static final By LAST_MESSAGE = By.id("");
+    private static final By MESSAGES = By.cssSelector(".js-copy-text");
+    //private static final By MESSAGES = By.cssSelector(".js-copy-text span");
 
     private String message;
 
@@ -38,7 +45,7 @@ public class MessagePage extends HelperBase {
         click(UPPER_DIALOG);
         // проверяем, что открылся верхний диалог - отображается кнопка "отправить"
         Assert.assertTrue("Send button is missing", isElementPresent(SEND_MESSAGE_BTN));
-        Assert.assertTrue("Send button is not visible", isElementVisible(SEND_MESSAGE_BTN));
+        Assert.assertFalse("Send button is not visible", isElementVisible(SEND_MESSAGE_BTN));
     }
 
     public void typeMessage(String message) {
@@ -52,6 +59,11 @@ public class MessagePage extends HelperBase {
     }
 
     public void clickSend() {
+
+        // устанавливаем задержку, что @SEND_MESSAGE_BTN успела отобразиться
+        new WebDriverWait(driver, 30)
+                .until(ExpectedConditions.visibilityOfElementLocated(SEND_MESSAGE_BTN));
+
         // проверяем наличие и видимость кнопки "отправить"
         Assert.assertTrue("Send button is missing", isElementPresent(SEND_MESSAGE_BTN));
         Assert.assertTrue("Send button is not visible", isElementVisible(SEND_MESSAGE_BTN));
@@ -60,8 +72,34 @@ public class MessagePage extends HelperBase {
     }
 
     public void checkMessage() {
+/*
+        // устанавливаем задержку, что @MESSAGES успела отобразиться
+        new WebDriverWait(driver, 1000)
+                .until(ExpectedConditions.visibilityOfElementLocated(MESSAGES));
+*/
+
+        /*new WebDriverWait(driver, 50)
+                .until(ExpectedConditions.presenceOfAllElementsLocatedBy(MESSAGES));*/
+
+         Assert.assertTrue("messages is missing", isElementPresent(MESSAGES));
+         Assert.assertTrue("messages is not visible", isElementVisible(MESSAGES));
+        // список всех сообщений
+        List<WebElement> list = driver.findElements(MESSAGES);
+        int size = list.size();
+        System.out.println("size of list webelements = " + size);
+
+        for (int j = 0; j < size; j++) {
+            System.out.println(j + " elem = " + list.get(j).getText());
+        }
+
+        System.out.println("\n\n\n");
+
         // взяли отправленное сообщение со странички
-        String getSendMessage = driver.findElement(LAST_MESSAGE).getText();
+        String getSendMessage = list.get(list.size() - 1).getText();
+
+        System.out.println("get send message  =" + getSendMessage);
+        System.out.println("generated message = " + message);
+
         // сравнили "что отправили" и "что взяли"
         Assert.assertTrue("Send message is not equals generated message", this.message.equals(getSendMessage));
     }
